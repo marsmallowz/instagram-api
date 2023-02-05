@@ -4,6 +4,41 @@ const jsonwebtoken = require("jsonwebtoken");
 const User = db.user;
 const secret = process.env.secret_key;
 const usersController = {
+  editUser: (req, res) => {
+    console.log(req.body);
+    const id = req.params.id;
+    const { fullname, username, phonenumber } = req.body;
+    const data = { username, fullname, phoneNumber: phonenumber };
+    try {
+      if (req.file) {
+        const image_url =
+          process.env.API_URL +
+          process.env.EXPOSE_PORT +
+          process.env.RENDER_AVATAR_IMAGE +
+          req.file.filename;
+        data.avatarUrl = image_url;
+      }
+      const result = User.update(
+        {
+          ...data,
+        },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      return res.status(200).json({
+        message: "user edited",
+        result,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        message: err.toString(),
+      });
+    }
+  },
+
   getUsers: (req, res) => {
     const qString = "select * from users";
     db.query(qString, (err, result) => {
@@ -16,6 +51,7 @@ const usersController = {
     });
     // res.status(200).json(users);
   },
+
   login: async (req, res) => {
     console.log(req.body);
     const { username, password } = req.body;

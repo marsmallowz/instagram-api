@@ -9,10 +9,13 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    queryInterface.addIndex("Users", ["username"], {
+    await queryInterface.addIndex("Users", ["username"], {
       unique: true,
     });
-    queryInterface.addIndex("Users", ["email"], {
+    await queryInterface.addIndex("Users", ["email"], {
+      unique: true,
+    });
+    await queryInterface.addIndex("Users", ["phoneNumber"], {
       unique: true,
     });
     // queryInterface.addConstraint("Users", {
@@ -20,7 +23,7 @@ module.exports = {
     //   type: "unique",
     //   name: "custom_unique_constraint_name",
     // });
-    queryInterface.changeColumn("Users", "avatarUrl", {
+    await queryInterface.changeColumn("Users", "avatarUrl", {
       type: Sequelize.DataTypes.STRING,
       defaultValue: "",
     });
@@ -33,14 +36,17 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    queryInterface.removeIndex("Users", ["username"], {
+    await queryInterface.removeIndex("Users", ["username"], {
       unique: true,
     });
-    queryInterface.removeIndex("Users", ["email"], {
+    await queryInterface.removeIndex("Users", ["email"], {
+      unique: true,
+    });
+    await queryInterface.removeIndex("Users", ["phoneNumber"], {
       unique: true,
     });
     // queryInterface.removeConstraint("Users", "custom_unique_constraint_name");
-    queryInterface.changeColumn("Users", "avatarUrl", {
+    await queryInterface.changeColumn("Users", "avatarUrl", {
       type: Sequelize.DataTypes.STRING,
     });
   },

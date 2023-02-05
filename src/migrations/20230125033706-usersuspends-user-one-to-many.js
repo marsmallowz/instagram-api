@@ -3,14 +3,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Comments", "userId", {
+    await queryInterface.addColumn("UserSuspends", "userId", {
       type: Sequelize.INTEGER,
-      after: "comment",
+      after: "suspendUntil",
     });
-    await queryInterface.addConstraint("Comments", {
+    await queryInterface.addConstraint("UserSuspends", {
       fields: ["userId"],
       type: "foreign key",
-      name: "fk_comments_user",
+      name: "fk_usersuspends_user",
       references: {
         table: "Users",
         field: "id",
@@ -21,7 +21,10 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("Comments", "fk_comments_user");
-    await queryInterface.removeColumn("Comments", "userId");
+    await queryInterface.removeConstraint(
+      "UserSuspends",
+      "fk_usersuspends_user"
+    );
+    await queryInterface.removeColumn("UserSuspends", "userId");
   },
 };

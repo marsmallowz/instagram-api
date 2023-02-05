@@ -3,8 +3,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Comments", "postId", Sequelize.INTEGER, {
-      after: "caption",
+    await queryInterface.addColumn("Comments", "postId", {
+      type: Sequelize.INTEGER,
+      after: "comment",
     });
     await queryInterface.addConstraint("Comments", {
       fields: ["postId"],

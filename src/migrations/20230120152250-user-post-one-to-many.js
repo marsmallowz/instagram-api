@@ -3,7 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Posts", "userId", Sequelize.INTEGER, {
+    await queryInterface.addColumn("Posts", "userId", {
+      type: Sequelize.INTEGER,
       after: "caption",
     });
     await queryInterface.addConstraint("Posts", {

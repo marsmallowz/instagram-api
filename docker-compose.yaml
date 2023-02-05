@@ -1,0 +1,33 @@
+version: "3.8"
+
+networks:
+  instagram-api-network:
+    name: instagram-api-network
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # portyangdiekspops:portbuatsendiri harus sama seperti yang dilisten
+    ports:
+      - "2600:2000"
+    volumes:
+      - .:/app
+      - "/app/node-modules"
+    depends_on:
+      - mysql_server
+    networks:
+      - instagram-api-network
+
+  mysql_server:
+    image: mysql
+    ports:
+      - "4040:3306"
+    environment:
+      - MYSQL_DATABASE=instagram2
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - instagram-api-network

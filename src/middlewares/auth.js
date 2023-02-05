@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const secret = process.env.SECRET_KEY;
 
 const verifyToken = async (req, res, next) => {
   let token = req.headers.authorization;
@@ -11,25 +12,25 @@ const verifyToken = async (req, res, next) => {
   }
   try {
     token = token.split(" ")[1];
-    console.log("myToken2");
-    console.log(token);
+
     if (token === null || !token) {
       return res.status(401).json({
         message: "akses ditolak",
       });
     }
-    let verifiedUser = jwt.verify(token, "qweqwe");
+    console.log("mysceret");
+    console.log(secret);
+
+    let verifiedUser = jwt.verify(token, secret);
+    console.log("verifiedUser");
+    console.log(verifiedUser);
 
     req.user = verifiedUser;
-    console.log("batas");
-    console.log(verifiedUser);
-    console.log(req.user);
-    console.log(req.body.userId);
-    if (req.body.userId !== req.user.id) {
-      return res.status(401).json({
-        message: "akses ditolak",
-      });
-    }
+    // if (req.body.userId !== req.user.id) {
+    //   return res.status(401).json({
+    //     message: "akses ditolak",
+    //   });
+    // }
     next();
   } catch (error) {
     return res.status(401).json({
