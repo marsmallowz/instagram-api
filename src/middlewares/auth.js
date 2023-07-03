@@ -3,8 +3,6 @@ const secret = process.env.SECRET_KEY;
 
 const verifyToken = async (req, res, next) => {
   let token = req.headers.authorization;
-  console.log("myToken");
-  console.log(token);
   if (!token) {
     return res.status(401).json({
       message: "akses ditolak",
@@ -18,12 +16,8 @@ const verifyToken = async (req, res, next) => {
         message: "akses ditolak",
       });
     }
-    console.log("mysceret");
-    console.log(secret);
 
     let verifiedUser = jwt.verify(token, secret);
-    console.log("verifiedUser");
-    console.log(verifiedUser);
 
     req.user = verifiedUser;
     // if (req.body.userId !== req.user.id) {

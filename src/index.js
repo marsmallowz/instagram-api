@@ -8,8 +8,7 @@ const PORT = process.env.PORT;
 const routes = require("./routes");
 const { urlencoded } = require("body-parser");
 console.log(PORT);
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
 app.use(cors());
@@ -32,7 +31,6 @@ app.use("/comments", routes.commentsRoute);
 app.get("/", (_, res) => {
   res.send("api is running");
 });
-console.log(`${__dirname}/../public/postImages`);
 app.use(
   "/post-image",
   express.static(`${__dirname}/middlewares/public/postImages`)

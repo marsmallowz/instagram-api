@@ -5,7 +5,6 @@ const User = db.user;
 const secret = process.env.secret_key;
 const usersController = {
   editUser: (req, res) => {
-    console.log(req.body);
     const id = req.params.id;
     const { fullname, username, phonenumber } = req.body;
     const data = { username, fullname, phoneNumber: phonenumber };
@@ -53,7 +52,6 @@ const usersController = {
   },
 
   login: async (req, res) => {
-    console.log(req.body);
     const { username, password } = req.body;
     try {
       const result = await User.findOne({
@@ -71,7 +69,6 @@ const usersController = {
   },
 
   login2: async (req, res) => {
-    console.log(req.body);
     const { username, password } = req.body;
     try {
       const result = await User.findOne({
@@ -90,7 +87,6 @@ const usersController = {
           message: "username and Password password does not match",
         });
       }
-      console.log(secret);
       const token = jsonwebtoken.sign({ ...result }, "qweqwe", {
         expiresIn: "1h",
       });
@@ -103,7 +99,6 @@ const usersController = {
   },
 
   addUsers: async (req, res) => {
-    console.log(req.body);
     const { fullname, email, username, password, repassword, avatarUrl } =
       req.body;
     if (password.length > 8 && password === repassword) {

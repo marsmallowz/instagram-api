@@ -3,7 +3,6 @@ const Comment = db.comment;
 
 const commentsController = {
   createComments: async (req, res) => {
-    console.log(req.body);
     const { comment, userId, postId } = req.body;
     try {
       const result = await Comment.create({
@@ -11,9 +10,7 @@ const commentsController = {
         userId: userId,
         postId: postId,
       });
-      console.log("result hasi");
 
-      console.log(result.dataValues.updateAt);
       const result2 = await db.user.findOne({
         attributes: ["username", "avatarUrl"],
         where: {

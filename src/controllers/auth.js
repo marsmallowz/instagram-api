@@ -11,11 +11,9 @@ const User = db.user;
 const secret = process.env.SECRET_KEY;
 const authController = {
   emailVerification: async (req, res) => {
-    console.log(req.params.token);
     const token = req.params.token;
     try {
       const data = await jwt.verify(token, secret);
-      console.log(data);
       await User.update(
         {
           verified: true,
@@ -36,13 +34,13 @@ const authController = {
     }
   },
   register: async (req, res) => {
+    console.log("kepanggil");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({
         message: errors,
       });
     }
-    console.log(req.body);
     const { phoneNumber, fullname, email, username, password, repassword } =
       req.body;
     if (password.length > 8 && password === repassword) {
@@ -99,11 +97,8 @@ const authController = {
     }
   },
   checkToken: async (req, res) => {
-    console.log("ngecek");
-    console.log(req.user);
     try {
       const newUser = await User.findByPk(req.user.id);
-      console.log(newUser);
       res.status(200).json({
         id: newUser.dataValues.id,
         email: newUser.dataValues.email,
@@ -194,8 +189,6 @@ const authController = {
         expiresIn: "1h",
       });
       await t.commit();
-      console.log("result");
-      console.log(result);
       res.status(200).json({
         token: token,
         user: {

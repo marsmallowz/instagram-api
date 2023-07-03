@@ -10,19 +10,8 @@ const moment = require("moment"); // require
 
 const postsController = {
   getPosts: async (req, res) => {
-    console.log(" my rq query");
-    console.log(req.query);
     const { offset, limit, date } = req.query;
-    // console.log("my date");
-    // const tanggal = Date.now();
-    // console.log(moment().format());
-    // console.log();
-    // console.log(moment(new Date()).format("YYYY-MM-DD HH:mm:ss"));
-    // console.log(new Date(tanggal));
-    // console.log(new Date(date));
-    // cari semua post dengan created
-    // kurang dari date sekarang. yang mana date disimpan didalam const.
-    // atau dengan idpost kurang dari idpost paling atas ? tapi idpost dapat darimana?
+
     try {
       const result = await Post.findAll({
         include: [
@@ -60,7 +49,6 @@ const postsController = {
         limit: parseInt(limit),
         order: [["createdAt", "DESC"]],
       });
-      console.log(result);
       res.send(result);
     } catch (error) {
       console.log(error);
@@ -70,11 +58,8 @@ const postsController = {
     }
   },
   addPosts2: async (req, res) => {
-    console.log(req.body);
     const { caption, userId } = req.body;
     // let listPhoto = [{ url: req.file.filename }];
-    console.log("bawah ni list foto");
-    console.log(req.files);
     let listPhoto = [];
     if (req.files?.length) {
       listPhoto = await req.files.map((photo) => {
@@ -108,14 +93,12 @@ const postsController = {
   },
 
   addPosts: async (req, res) => {
-    console.log(req.body);
     const { caption, userId, imageList } = req.body;
     const listPhoto = imageList.map((photo) => {
       return {
         url: photo,
       };
     });
-    console.log(listPhoto);
     try {
       const result = await Post.create(
         {
@@ -127,7 +110,6 @@ const postsController = {
           include: "photos",
         }
       );
-      console.log(result);
       res.send(result);
     } catch (error) {
       console.log(error);
@@ -138,7 +120,6 @@ const postsController = {
   },
   postLiked: async (req, res) => {
     const { postId, userId, liked } = req.body;
-    console.log(req.body);
     const t = await sequelize.transaction();
     try {
       if (liked) {
